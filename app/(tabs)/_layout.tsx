@@ -18,11 +18,13 @@ interface TabBarLabelProps {
   title: string;
 }
 
-const TabBarLabel = ({ title, focused }: TabBarLabelProps) => (
-  <Text style={[styles.tabLabel, { color: focused ? "#2F50C1" : "#A7A3B3" }]}>
-    {title}
-  </Text>
-);
+const TabBarLabel = ({ title, focused }: TabBarLabelProps) => {
+  return (
+    <Text style={[styles.tabLabel, { color: focused ? "#2F50C1" : "#A7A3B3" }]}>
+      {title}
+    </Text>
+  );
+};
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -67,7 +69,7 @@ export default function TabLayout() {
         name="wallet"
         options={{
           title: "Wallet",
-          tabBarIcon: ({ color }) => <WalletIcon color={color} />,
+          tabBarIcon: ({ color, focused }) => <WalletIcon focused={focused} color={color} />,
           tabBarLabel: ({ focused }) => (
             <TabBarLabel focused={focused} title="Wallet" />
           ),
@@ -77,7 +79,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, focused }) => <ProfileIcon color={color} />,
+          tabBarIcon: ({ color, focused }) => <ProfileIcon  focused={focused}   />,
           tabBarLabel: ({ focused }) => (
             <TabBarLabel focused={focused} title="Profile" />
           ),
