@@ -1,37 +1,95 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import {
+  ProfileIcon,
+  ScanIcon,
+  ShipmentIcon,
+  WalletIcon,
+} from "@/components/navigation/homeTabIcons";
+import { Fonts } from "@/constants/Fonts";
+import { ThemedText } from "@/components/ThemedText";
+import { StyleSheet, Text } from "react-native";
 
+interface TabBarLabelProps {
+  focused: boolean;
+  title: string;
+}
+
+const TabBarLabel = ({ title, focused }: TabBarLabelProps) => (
+  <Text style={[styles.tabLabel, { color: focused ? "#2F50C1" : "#A7A3B3" }]}>
+    {title}
+  </Text>
+);
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: "#2F50C1",
         headerShown: false,
-      }}>
+        tabBarHideOnKeyboard: true,
+        tabBarLabelStyle: {
+          color: "#5B4CCC",
+        },
+        tabBarStyle: {
+          height: 60,
+          paddingVertical: 5,
+          paddingBottom: 7,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <ShipmentIcon color={color || "#A7A3B3"} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <TabBarLabel focused={focused} title="Shipment" />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="scan"
+        options={{
+          tabBarIcon: ({ color }) => <ScanIcon color={color} />,
+          tabBarLabel: ({ focused }) => (
+            <TabBarLabel focused={focused} title="Scan" />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="wallet"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          title: "Wallet",
+          tabBarIcon: ({ color }) => <WalletIcon color={color} />,
+          tabBarLabel: ({ focused }) => (
+            <TabBarLabel focused={focused} title="Wallet" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => <ProfileIcon color={color} />,
+          tabBarLabel: ({ focused }) => (
+            <TabBarLabel focused={focused} title="Profile" />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabLabel: {
+    fontSize: 11,
+    fontFamily: Fonts.SFPRO_Regular,
+  },
+});
