@@ -1,10 +1,17 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import Feather from "@expo/vector-icons/Feather";
-import { StackContainer } from "@/styles";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import Checkbox from "expo-checkbox";
+
+import { Spacer, StackContainer } from "@/styles";
 import { Colors } from "@/constants/Colors";
-import { ArrowInOut, box } from "@/assets/images";
+import { ArrowInOut, box, colouredArrow, whatsapp } from "@/assets/images";
 import { ThemedText } from "@/components/ThemedText";
 
 interface ShipmentCardProps {
@@ -13,29 +20,105 @@ interface ShipmentCardProps {
 }
 
 const ShipmentCard = ({ checked, setChecked }: ShipmentCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const animatedHeight = useSharedValue(0);
+
+  const toggleExpand = () => {
+    setIsExpanded((prev) => !prev);
+    animatedHeight.value = withTiming(isExpanded ? 0 : 140, {
+      duration: 300,
+    });
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: animatedHeight.value,
+      overflow: "hidden",
+    };
+  });
+
   return (
-    <StackContainer style={styles.container}>
-      <Checkbox
-        style={styles.checkbox}
-        value={checked}
-        color={checked ? Colors.primary : undefined}
-        onValueChange={setChecked}
-      />
-      <Image style={styles.imgCard} source={box} />
-      <View>
-        <ThemedText style={[styles.desc, { color: "#3F395C" }]}>AMB</ThemedText>
-        <ThemedText type="defaultSemiBold">41785691423</ThemedText>
-        <StackContainer spacing={5} style={{ alignItems: "center" }}>
-          <ThemedText style={styles.desc}>CAIRO</ThemedText>
-          <Feather name="arrow-right" size={8} color={Colors.primary} />
-          <ThemedText style={styles.desc}>CAIRO</ThemedText>
-        </StackContainer>
-      </View>
-      <View>
-        <Text style={styles.status}>Received</Text>
-      </View>
-      <Image style={styles.arrowImg} source={ArrowInOut} />
-    </StackContainer>
+    <View
+      style={[
+        styles.container,
+        {
+          borderColor: checked ? "#6E91EC" : "transparent",
+          borderWidth: checked ? 2 : 0,
+          paddingBottom: isExpanded ? 0 : 12,
+        },
+      ]}
+    >
+      <StackContainer style={styles.contentContainer}>
+        <Checkbox
+          style={styles.checkbox}
+          value={checked}
+          color={checked ? Colors.primary : undefined}
+          onValueChange={setChecked}
+        />
+        <Image style={styles.imgCard} source={box} />
+        <View>
+          <ThemedText style={[styles.desc, { color: "#3F395C" }]}>
+            AMB
+          </ThemedText>
+          <ThemedText type="defaultSemiBold">41785691423</ThemedText>
+          <StackContainer spacing={5} style={{ alignItems: "center" }}>
+            <ThemedText style={styles.desc}>CAIRO</ThemedText>
+            <Feather name="arrow-right" size={8} color={Colors.primary} />
+            <ThemedText style={styles.desc}>CAIRO</ThemedText>
+          </StackContainer>
+        </View>
+        <View>
+          <Text style={[styles.status, { color: Colors.primary }]}>
+            Received
+          </Text>
+        </View>
+        <TouchableOpacity onPress={toggleExpand}>
+          <Image
+            style={styles.arrowImg}
+            source={checked ? colouredArrow : ArrowInOut}
+          />
+        </TouchableOpacity>
+      </StackContainer>
+
+      {isExpanded && (
+        <Animated.View style={[styles.expandedDetails, animatedStyle]}>
+          <StackContainer
+            style={{ alignItems: "center", justifyContent: "space-between" }}
+          >
+            <View>
+              <ThemedText style={styles.location}>Origin</ThemedText>
+              <ThemedText style={styles.locationTitle}>Cairo</ThemedText>
+              <ThemedText style={styles.desc}>Dokki, 22 Nile St.</ThemedText>
+            </View>
+            <Feather name="arrow-right" size={16} color={Colors.primary} />
+            <View>
+              <ThemedText style={styles.location}>Destination</ThemedText>
+              <ThemedText style={styles.locationTitle}>Alexandria</ThemedText>
+              <ThemedText style={styles.desc}>Smoha, 22 max St.</ThemedText>
+            </View>
+          </StackContainer>
+          <Spacer size={24} />
+          <StackContainer
+            style={{ justifyContent: "flex-end", paddingBottom: 12 }}
+            spacing={14}
+          >
+            <TouchableOpacity
+              style={[styles.actionBtn, { backgroundColor: "#6E91EC" }]}
+            >
+              <Ionicons name="call-sharp" size={24} color="white" />
+              <Text style={styles.actionBtnLabel}>Call</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.actionBtn, { backgroundColor: "#25D366" }]}
+            >
+              <Image style={styles.whatsapp} source={whatsapp} />
+              <Text style={styles.actionBtnLabel}>Whatsapp</Text>
+            </TouchableOpacity>
+          </StackContainer>
+        </Animated.View>
+      )}
+    </View>
   );
 };
 
@@ -44,10 +127,15 @@ export default ShipmentCard;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.gray,
-    padding: 12,
     borderRadius: 10,
+    paddingTop: 12,
+    marginBottom: 8
+  },
+
+  contentContainer: {
     alignItems: "center",
-   justifyContent: "space-between"
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
   },
   checkbox: {
     borderColor: "#D0D5DD",
@@ -76,8 +164,38 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     fontSize: 11,
   },
-  arrowImg:{
-  height: 16,
-  width: 16
-  }
+  arrowImg: {
+    height: 24,
+    width: 24,
+  },
+  expandedDetails: {
+    backgroundColor: "#F4F2F8",
+    paddingHorizontal: 12,
+    paddingTop: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: "100%",
+  },
+  location: { fontSize: 11, color: Colors.primary },
+  locationTitle: {
+    fontSize: 16,
+  },
+  actionBtn: {
+    gap: 8,
+    alignItems: "center",
+    flexDirection: "row",
+    paddingLeft: 14,
+    paddingRight: 18,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  actionBtnLabel: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "white",
+  },
+  whatsapp: {
+    height: 20,
+    width: 20,
+  },
 });
