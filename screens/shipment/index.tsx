@@ -59,12 +59,16 @@ const ShipmentScreen = () => {
         },
       });
 
+      // The API response is returning "New Shipment TT" as the status for all records,
+      // which does not match the expected status values from the Figma design.
+      // To demonstrate how different statuses will appear on the screen,
+      // I  am manipulating the data by assigning a random status using getRandomStatus()
+      // for each shipment.
+
       const fetchedData = data.message.map((item: ShipmentData) => ({
         ...item,
         status: getRandomStatus(),
       }));
-
-      fetchedData[0];
 
       setShipmentList(fetchedData);
       setIsFetching(false);
