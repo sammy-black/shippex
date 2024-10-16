@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ScrollView, 
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,7 +27,9 @@ import { useAuth } from "@/context/AuthContext";
 import { COLORS, FONTS } from "@/constants";
 
 const schema = yup.object().shape({
-  url: yup.string().required("URL is required"),
+  url: yup
+    .string()
+    .required("Website URL is required"),
   email: yup.string().required("Email / username is required"),
   password: yup.string().required("Password is required"),
 });
@@ -43,7 +46,7 @@ interface LoginResponse {
   full_name: string;
 }
 
-const LoginScreeen = () => {
+const LoginScreen = () => { 
   const router = useRouter();
   const { setAuthState } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -83,11 +86,12 @@ const LoginScreeen = () => {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 5} 
       >
         <SafeAreaView style={{ flex: 1 }}>
           <InnerContainer style={styles.innerContainer}>
             {Platform.OS === "ios" && <View style={styles.grabber} />}
-            <Spacer size={10} />
+
             <TouchableOpacity onPress={handleGoBack}>
               <StackContainer>
                 <MaterialIcons
@@ -104,7 +108,12 @@ const LoginScreeen = () => {
               to register
             </Text>
             <Spacer size={22} />
-            <View style={{ flex: 1, justifyContent: "space-between" }}>
+
+           
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1, justifyContent: "space-between" }}
+              keyboardShouldPersistTaps="handled"
+            >
               <View style={{ gap: 19 }}>
                 <RHFTextField
                   label="URL"
@@ -145,7 +154,7 @@ const LoginScreeen = () => {
                 title="Login"
                 onPress={handleSubmit(onSubmit)}
               />
-            </View>
+            </ScrollView>
           </InnerContainer>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -153,14 +162,15 @@ const LoginScreeen = () => {
   );
 };
 
-export default LoginScreeen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   innerContainer: {
+    flex: 1, 
+    paddingTop: 6,
     backgroundColor: "white",
     gap: 16,
     paddingBottom: 52,

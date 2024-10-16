@@ -7,7 +7,7 @@ import {
   ShipmentIcon,
   WalletIcon,
 } from "@/components/navigation/homeTabIcons";
-import { StyleSheet, Text } from "react-native";
+import { Platform, StyleSheet, Text } from "react-native";
 import { FONTS } from "@/constants";
 
 interface TabBarLabelProps {
@@ -35,9 +35,9 @@ export default function TabLayout() {
           color: "#5B4CCC",
         },
         tabBarStyle: {
-          height: 60,
+          height: Platform.OS === "ios" ? 72 : 60,
           paddingVertical: 5,
-          paddingBottom: 7,
+          paddingBottom: 20,
         },
       }}
     >

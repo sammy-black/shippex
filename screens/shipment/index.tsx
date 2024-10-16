@@ -54,6 +54,9 @@ const ShipmentScreen = () => {
     try {
       const { data } = await axios.get("/frappe.client.get_list", {
         params: { doctype: "AWB", fields: JSON.stringify(["*"]) },
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const fetchedData = data.message.map((item: ShipmentData) => ({
@@ -61,9 +64,12 @@ const ShipmentScreen = () => {
         status: getRandomStatus(),
       }));
 
+      fetchedData[0];
+
       setShipmentList(fetchedData);
       setIsFetching(false);
     } catch (error) {
+      console.log(error);
       setIsFetching(false);
     }
   }, []);
@@ -176,7 +182,7 @@ const ShipmentScreen = () => {
             <Spinner />
           ) : (
             <FlatList
-            showsVerticalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
               data={filteredShipmentList}
               renderItem={({ item }) => (
                 <ShipmentCard
@@ -186,7 +192,6 @@ const ShipmentScreen = () => {
                 />
               )}
               keyExtractor={(item) => item.name}
-              contentContainerStyle={styles.flatList}
               refreshControl={
                 <RefreshControl
                   refreshing={isFetching}
@@ -211,7 +216,7 @@ const ShipmentScreen = () => {
 export default ShipmentScreen;
 
 const styles = StyleSheet.create({
-  introContainer: { paddingVertical: 12 },
+  introContainer: { paddingVertical: 12, flex: 1 },
   filterBtnContainer: { flexDirection: "row", gap: 14 },
   filterBtn: {
     paddingVertical: 6,
@@ -231,6 +236,5 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.Inter_400Regular,
   },
   shipmentsContainer: { alignItems: "center", justifyContent: "space-between" },
-  flatList: { paddingBottom: 50 },
   checkbox: { borderColor: "#D0D5DD", height: 20, width: 20, borderRadius: 5 },
 });

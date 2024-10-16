@@ -19,7 +19,7 @@ const Profile = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <ThemedView style={{ flex: 1, paddingVertical: 24 }}>
           <View style={{ flex: 1, justifyContent: "space-between" }}>
             <View style={{ gap: 16 }}>

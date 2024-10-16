@@ -7,7 +7,7 @@ export default function HomeScreen() {
   return (
     <>
       <StatusBar backgroundColor={COLORS.white} />
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <ShipmentScreen />
       </SafeAreaView>
     </>
@@ -15,10 +15,4 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  checkbox: {
-    borderColor: "#D0D5DD",
-    height: 20,
-    width: 20,
-    borderRadius: 5,
-  },
 });

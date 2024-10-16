@@ -11,7 +11,7 @@ import { splashLogo } from "@/assets/images";
 import { COLORS } from "@/constants";
 
 
-const SplashScreen: React.FC = () => {
+const SplashScreen = () => {
   const scale = useSharedValue<number>(1);
   const rotationX = useSharedValue<number>(0);
   const backgroundColor = useSharedValue<number>(0);

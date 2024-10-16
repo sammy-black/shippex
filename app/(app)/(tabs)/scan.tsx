@@ -9,7 +9,7 @@ const Scan = () => {
   const router = useRouter();
   return (
     <>
-      <SafeAreaView style={{flex: 1}}> 
+      <SafeAreaView style={{flex: 1, backgroundColor: "white"}}> 
         <ComingSoon />
       </SafeAreaView>
       

@@ -5,7 +5,7 @@ import ComingSoon from "@/components/ComingSoon";
 
 const Wallet = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <ComingSoon />
     </SafeAreaView>
   );

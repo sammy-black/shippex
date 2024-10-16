@@ -20,6 +20,7 @@ interface RHFTextFieldProps extends TextInputProps {
   rightIcon?: ReactNode;
   control: Control<any>;
   handleRightIcon?: () => void;
+  leftContent?: React.ReactNode
 }
 
 const RHFTextField: React.FC<RHFTextFieldProps> = ({
@@ -29,6 +30,7 @@ const RHFTextField: React.FC<RHFTextFieldProps> = ({
   rightIcon,
   control,
   handleRightIcon,
+  leftContent,
   ...others
 }) => {
   const [isFocused, setIsFocused] = useState(false);
