@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -26,7 +26,6 @@ interface StatusBoxProps {
   status: string;
 }
 
-
 const { STATUS_COLORS } = COLORS;
 
 const StatusBox = ({ status }: StatusBoxProps) => {
@@ -42,110 +41,112 @@ const StatusBox = ({ status }: StatusBoxProps) => {
     </View>
   );
 };
-const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const ShipmentCard = React.memo(
+  ({ item, checked, setChecked }: ShipmentCardProps) => {
+    const [isExpanded, setIsExpanded] = useState(false);
 
-  const animatedHeight = useSharedValue(0);
+    const animatedHeight = useSharedValue(0);
 
-  const toggleExpand = () => {
-    setIsExpanded((prev) => !prev);
-    animatedHeight.value = withTiming(isExpanded ? 0 : 140, {
-      duration: 300,
+    const toggleExpand = useCallback(() => {
+      setIsExpanded((prev) => !prev);
+      animatedHeight.value = withTiming(isExpanded ? 0 : 140, {
+        duration: 300,
+      });
+    }, [isExpanded]);
+
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        height: animatedHeight.value,
+        overflow: "hidden",
+      };
     });
-  };
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      height: animatedHeight.value,
-      overflow: "hidden",
-    };
-  });
-
-  return (
-    <View
-      style={[
-        styles.container,
-        {
-          borderColor: checked ? "#6E91EC" : "transparent",
-          borderWidth: checked ? 2 : 0,
-          paddingBottom: isExpanded ? 0 : 12,
-        },
-      ]}
-    >
-      <StackContainer style={styles.contentContainer}>
-        <Checkbox
-          style={styles.checkbox}
-          value={checked}
-          color={checked ? COLORS.primary : undefined}
-          onValueChange={setChecked}
-        />
-        <Image style={styles.imgCard} source={box} />
-        <View>
-          <ThemedText style={[styles.desc, { color: "#3F395C" }]}>
-            AMB
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">{item?.name}</ThemedText>
-          <StackContainer spacing={5} style={{ alignItems: "center" }}>
-            <ThemedText style={styles.desc}>{item?.origin_city}</ThemedText>
-            <Feather name="arrow-right" size={8} color={COLORS.primary} />
-            <ThemedText style={styles.desc}>
-              {item?.destination_city}
-            </ThemedText>
-          </StackContainer>
-        </View>
-        <StatusBox status={item?.status || ""} />
-        <TouchableOpacity onPress={toggleExpand}>
-          <Image
-            style={styles.arrowImg}
-            source={checked ? colouredArrow : ArrowInOut}
+    return (
+      <View
+        style={[
+          styles.container,
+          {
+            borderColor: checked ? "#6E91EC" : "transparent",
+            borderWidth: checked ? 2 : 0,
+            paddingBottom: isExpanded ? 0 : 12,
+          },
+        ]}
+      >
+        <StackContainer style={styles.contentContainer}>
+          <Checkbox
+            style={styles.checkbox}
+            value={checked}
+            color={checked ? COLORS.primary : undefined}
+            onValueChange={setChecked}
           />
-        </TouchableOpacity>
-      </StackContainer>
-
-      {isExpanded && (
-        <Animated.View style={[styles.expandedDetails, animatedStyle]}>
-          <StackContainer
-            style={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <View>
-              <ThemedText style={styles.location}>Origin</ThemedText>
-              <ThemedText style={styles.locationTitle}>
-                {item?.origin_city}
-              </ThemedText>
-              <ThemedText style={styles.desc}>Dokki, 22 Nile St.</ThemedText>
-            </View>
-            <Feather name="arrow-right" size={16} color={COLORS.primary} />
-            <View>
-              <ThemedText style={styles.location}>Destination</ThemedText>
-              <ThemedText style={styles.locationTitle}>
+          <Image style={styles.imgCard} source={box} />
+          <View>
+            <ThemedText style={[styles.desc, { color: "#3F395C" }]}>
+              AMB
+            </ThemedText>
+            <ThemedText type="defaultSemiBold">{item?.name}</ThemedText>
+            <StackContainer spacing={5} style={{ alignItems: "center" }}>
+              <ThemedText style={styles.desc}>{item?.origin_city}</ThemedText>
+              <Feather name="arrow-right" size={8} color={COLORS.primary} />
+              <ThemedText style={styles.desc}>
                 {item?.destination_city}
               </ThemedText>
-              <ThemedText style={styles.desc}>Smoha, 22 max St.</ThemedText>
-            </View>
-          </StackContainer>
-          <Spacer size={24} />
-          <StackContainer
-            style={{ justifyContent: "flex-end", paddingBottom: 12 }}
-            spacing={14}
-          >
-            <TouchableOpacity
-              style={[styles.actionBtn, { backgroundColor: "#6E91EC" }]}
+            </StackContainer>
+          </View>
+          <StatusBox status={item?.status || ""} />
+          <TouchableOpacity onPress={toggleExpand}>
+            <Image
+              style={styles.arrowImg}
+              source={checked ? colouredArrow : ArrowInOut}
+            />
+          </TouchableOpacity>
+        </StackContainer>
+
+        {isExpanded && (
+          <Animated.View style={[styles.expandedDetails, animatedStyle]}>
+            <StackContainer
+              style={{ alignItems: "center", justifyContent: "space-between" }}
             >
-              <Ionicons name="call-sharp" size={24} color="white" />
-              <Text style={styles.actionBtnLabel}>Call</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.actionBtn, { backgroundColor: "#25D366" }]}
+              <View>
+                <ThemedText style={styles.location}>Origin</ThemedText>
+                <ThemedText style={styles.locationTitle}>
+                  {item?.origin_city}
+                </ThemedText>
+                <ThemedText style={styles.desc}>Dokki, 22 Nile St.</ThemedText>
+              </View>
+              <Feather name="arrow-right" size={16} color={COLORS.primary} />
+              <View>
+                <ThemedText style={styles.location}>Destination</ThemedText>
+                <ThemedText style={styles.locationTitle}>
+                  {item?.destination_city}
+                </ThemedText>
+                <ThemedText style={styles.desc}>Smoha, 22 max St.</ThemedText>
+              </View>
+            </StackContainer>
+            <Spacer size={24} />
+            <StackContainer
+              style={{ justifyContent: "flex-end", paddingBottom: 12 }}
+              spacing={14}
             >
-              <Image style={styles.whatsapp} source={whatsapp} />
-              <Text style={styles.actionBtnLabel}>Whatsapp</Text>
-            </TouchableOpacity>
-          </StackContainer>
-        </Animated.View>
-      )}
-    </View>
-  );
-};
+              <TouchableOpacity
+                style={[styles.actionBtn, { backgroundColor: "#6E91EC" }]}
+              >
+                <Ionicons name="call-sharp" size={24} color="white" />
+                <Text style={styles.actionBtnLabel}>Call</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.actionBtn, { backgroundColor: "#25D366" }]}
+              >
+                <Image style={styles.whatsapp} source={whatsapp} />
+                <Text style={styles.actionBtnLabel}>Whatsapp</Text>
+              </TouchableOpacity>
+            </StackContainer>
+          </Animated.View>
+        )}
+      </View>
+    );
+  }
+);
 
 export default ShipmentCard;
 

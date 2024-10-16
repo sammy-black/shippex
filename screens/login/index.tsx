@@ -1,4 +1,5 @@
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -68,6 +69,7 @@ const LoginScreeen = () => {
       setIsLoading(false);
       router.replace("/(app)/(tabs)");
     } catch (error: any) {
+      Alert.alert("Error", error.message);
       setIsLoading(false);
     }
   };
@@ -80,72 +82,72 @@ const LoginScreeen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-      <SafeAreaView style={{ flex: 1 }}>
-        <InnerContainer style={styles.innerContainer}>
-          {Platform.OS === "ios" && <View style={styles.grabber} />}
-          <Spacer size={10} />
-          <TouchableOpacity onPress={handleGoBack}>
-            <StackContainer>
-              <MaterialIcons
-                name="arrow-back-ios"
-                size={24}
-                color={COLORS.primary}
-              />
-              <Text style={styles.subTitle}>Cancel</Text>
-            </StackContainer>
-          </TouchableOpacity>
-          <Text style={styles.loginText}>Login</Text>
-          <Text style={[styles.subTitle, { color: "#757281" }]}>
-            Please enter your First, Last name and your phone number in order to
-            register
-          </Text>
-          <Spacer size={22} />
-          <View style={{ flex: 1, justifyContent: "space-between", }}>
-            <View style={{gap: 19}}>
-              <RHFTextField
-                label="URL"
-                control={control}
-                name={"url"}
-                placeholder="URL"
-              />
-              <RHFTextField
-                label="Username / Email"
-                control={control}
-                name={"email"}
-                placeholder="Username / Email"
-              />
+        <SafeAreaView style={{ flex: 1 }}>
+          <InnerContainer style={styles.innerContainer}>
+            {Platform.OS === "ios" && <View style={styles.grabber} />}
+            <Spacer size={10} />
+            <TouchableOpacity onPress={handleGoBack}>
+              <StackContainer>
+                <MaterialIcons
+                  name="arrow-back-ios"
+                  size={24}
+                  color={COLORS.primary}
+                />
+                <Text style={styles.subTitle}>Cancel</Text>
+              </StackContainer>
+            </TouchableOpacity>
+            <Text style={styles.loginText}>Login</Text>
+            <Text style={[styles.subTitle, { color: "#757281" }]}>
+              Please enter your First, Last name and your phone number in order
+              to register
+            </Text>
+            <Spacer size={22} />
+            <View style={{ flex: 1, justifyContent: "space-between" }}>
+              <View style={{ gap: 19 }}>
+                <RHFTextField
+                  label="URL"
+                  control={control}
+                  name={"url"}
+                  placeholder="URL"
+                />
+                <RHFTextField
+                  label="Username / Email"
+                  control={control}
+                  name={"email"}
+                  placeholder="Username / Email"
+                />
 
-              <RHFTextField
-                label="Password"
-                control={control}
-                name={"password"}
-                secureTextEntry={hidePassword}
-                hidePassword={hidePassword}
-                placeholder="Password"
-                handleRightIcon={() => setHidePassword(!hidePassword)}
-                rightIcon={
-                  <Feather
-                    name={hidePassword ? "eye-off" : "eye"}
-                    size={20}
-                    color="black"
-                  />
-                }
+                <RHFTextField
+                  label="Password"
+                  control={control}
+                  name={"password"}
+                  secureTextEntry={hidePassword}
+                  hidePassword={hidePassword}
+                  placeholder="Password"
+                  handleRightIcon={() => setHidePassword(!hidePassword)}
+                  rightIcon={
+                    <Feather
+                      name={hidePassword ? "eye-off" : "eye"}
+                      size={20}
+                      color="black"
+                    />
+                  }
+                />
+              </View>
+              <PrimaryButton
+                disabled={!isDirty}
+                loading={isLoading}
+                bgColor={COLORS.primary}
+                spinnerColor="white"
+                textColor="white"
+                title="Login"
+                onPress={handleSubmit(onSubmit)}
               />
             </View>
-            <PrimaryButton
-              disabled={!isDirty}
-              loading={isLoading}
-              bgColor={COLORS.primary}
-              spinnerColor="white"
-              textColor="white"
-              title="Login"
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
-        </InnerContainer>
-      </SafeAreaView>
+          </InnerContainer>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -156,7 +158,7 @@ export default LoginScreeen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   innerContainer: {
     backgroundColor: "white",

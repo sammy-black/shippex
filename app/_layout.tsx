@@ -39,7 +39,7 @@ export default function RootLayout() {
 
   const prepareApp = useCallback(async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2500));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     } catch (e) {
       console.warn(e);
     } finally {
