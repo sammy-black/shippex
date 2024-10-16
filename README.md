@@ -1,50 +1,74 @@
-# Welcome to your Expo app 👋
+# Shipment Tracking App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a simple shipment tracking app built using [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and the [Expo File Router](https://expo.github.io/router/). The app allows drivers to manage their shipment status in real-time, including updating the status of shipments and viewing key details about each delivery.
 
-## Get started
+## Table of Contents
 
-1. Install dependencies
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the App](#running-the-app)
+- [Test Credentials](#test-credentials)
+- [Technologies Used](#technologies-used)
+
+## Prerequisites
+
+Before running the app, ensure you have the following tools installed on your machine:
+
+- Node.js (v14.x or later)
+- Expo CLI (`npm install -g expo-cli`)
+- Git
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/sammy-black/shippex.git
+
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd shippex
+
+   ```
+
+3. Install the project dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+# Running the App
+
+1. Start the Expo development server:
 
    ```bash
-    npx expo start
+   expo start
+
    ```
 
-In the output, you'll find options to open the app in a
+2. Use the QR code from the terminal or browser to open the app on an Expo Go-enabled device or simulator (iOS/Android).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+3. You can also run the app directly on a simulator by choosing the respective platform (Android or iOS) from the Expo browser window.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Test Credentials
+To explore the app, you can log in using the following test credentials:
 
-## Get a fresh project
+- **Email**: test@brandimic.com
+- **Password**: testy123@
 
-When you're ready, run:
+Feel free to use this account to test the app's functionality.
 
-```bash
-npm run reset-project
-```
+# Technologies Used
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+React Native: Framework for building native apps using React.
+Expo: A framework and platform for universal React applications.
+Expo File Router: File-based routing to manage navigation between screens.
+React Hook Form: For managing form state and validation.
+Yup: For schema validation in forms.
+Styled Components: For styling React components using tagged template literals.
+React Native Reanimated: For handling animations in the app.
+Expo Checkbox: Used for selecting and managing multiple shipments.
+Axios: For making HTTP requests to fetch and manipulate shipment data.
