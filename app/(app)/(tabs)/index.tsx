@@ -1,13 +1,12 @@
 import { StyleSheet, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { Colors } from "@/constants/Colors";
 import ShipmentScreen from "@/screens/shipment";
+import { COLORS } from "@/constants";
 
 export default function HomeScreen() {
   return (
     <>
-      <StatusBar backgroundColor={Colors.white} />
+      <StatusBar backgroundColor={COLORS.white} />
       <SafeAreaView style={{ flex: 1 }}>
         <ShipmentScreen />
       </SafeAreaView>

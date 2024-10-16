@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native"; // If using React Native
+import { StyleSheet, View } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Fonts } from "@/constants/Fonts";
+import { FONTS } from "@/constants";
+
+
 
 
 const ComingSoon = () => {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 10,
     textAlign: "center",
-    fontFamily: Fonts.SFPRO_Regular
+    fontFamily: FONTS.SFPRO_Regular
   },
 });
 

@@ -1,7 +1,8 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Avatar, bell, shippexHeaderLogo } from "@/assets/images";
-import { Colors } from "@/constants/Colors";
+import { COLORS } from "@/constants";
+
 
 const Header = () => {
   return (
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   iconBtn: {
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
     padding: 12,
     borderRadius: 999,
   },

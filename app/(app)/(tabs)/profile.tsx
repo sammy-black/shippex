@@ -1,13 +1,14 @@
-import { View, Text } from "react-native";
-import React, { useState } from "react";
+import { View } from "react-native";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+
 
 import { useAuth } from "@/context/AuthContext";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import PrimaryButton from "@/components/PrimaryButton";
-import { Colors } from "@/constants/Colors";
+import { COLORS } from "@/constants";
+
 
 const Profile = () => {
   const { authState, logOut } = useAuth();
@@ -32,7 +33,7 @@ const Profile = () => {
             <View>
               <ThemedView style={{ marginTop: 16, paddingHorizontal: 24 }}>
                 <PrimaryButton
-                  bgColor={Colors.primary}
+                  bgColor={COLORS.primary}
                   textColor="white"
                   onPress={handleLogout}
                   title="Logout"

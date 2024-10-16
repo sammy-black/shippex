@@ -1,9 +1,11 @@
 import {
   FlatList,
+  Keyboard,
   RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
@@ -15,14 +17,25 @@ import { ThemedText } from "@/components/ThemedText";
 import SearchInput from "@/components/SearchInput";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Colors } from "@/constants/Colors";
 import { InnerContainer, Spacer, StackContainer } from "@/styles";
 import { ThemedView } from "@/components/ThemedView";
 import FilterActionSheet from "./FilterActionSheet";
-import { Fonts } from "@/constants/Fonts";
 import axios from "@/utils/axios";
-import { ShipmentData } from "@/types/shipmentData";
+import { ShipmentData } from "@/types/ShipmentData";
 import Spinner from "@/components/Spinner";
+import { COLORS, FILTER_OPTIONS, FONTS } from "@/constants";
+
+const TEST_STATUS_FILTER = [
+  "Received",
+  "Error",
+  "Canceled",
+  "Delivered",
+  "On Hold",
+];
+const getRandomStatus = () => {
+  const randomIndex = Math.floor(Math.random() * FILTER_OPTIONS.length);
+  return TEST_STATUS_FILTER[randomIndex];
+};
 
 const ShipmentScreen = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -33,6 +46,7 @@ const ShipmentScreen = () => {
     {}
   );
   const [shipmentList, setShipmentList] = useState<ShipmentData[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   useEffect(() => {
     fetchShipments();
@@ -47,11 +61,14 @@ const ShipmentScreen = () => {
           fields: JSON.stringify(["*"]),
         },
       });
-
-      setShipmentList(data.message);
+      const fetchedData = data.message;
+      const manipulatedData = fetchedData.map((item: ShipmentData) => ({
+        ...item,
+        status: getRandomStatus(),
+      }));
+      setShipmentList(manipulatedData);
       setIsFetching(false);
     } catch (error) {
-      console.log(error);
       setIsFetching(false);
     }
   }, []);
@@ -88,8 +105,22 @@ const ShipmentScreen = () => {
   );
 
   const handleFilterOptions = (options: string[]) => {
-    console.log(options);
+    setSelectedFilters(options);
+    setShowFilter(false);
   };
+
+  const filteredShipmentList = shipmentList.filter((item) => {
+    const matchesSearch =
+      searchText === "" ||
+      item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.origin_city.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.destination_state.toLowerCase().includes(searchText.toLowerCase());
+
+    const matchesStatus =
+      selectedFilters.length === 0 || selectedFilters.includes(item.status);
+
+    return matchesSearch && matchesStatus;
+  });
 
   const onRefresh = useCallback(() => {
     fetchShipments();
@@ -97,6 +128,7 @@ const ShipmentScreen = () => {
 
   return (
     <>
+      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
       <ThemedView style={{ flex: 1 }}>
         <InnerContainer style={{ gap: 12 }}>
           <Header />
@@ -122,14 +154,14 @@ const ShipmentScreen = () => {
               <Text style={styles.btnLabel}>Filter</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.filterBtn, { backgroundColor: Colors.primary }]}
+              style={[styles.filterBtn, { backgroundColor: COLORS.primary }]}
             >
               <MaterialCommunityIcons
                 name="line-scan"
                 size={24}
                 color="white"
               />
-              <Text style={[styles.btnLabel, { color: Colors.white }]}>
+              <Text style={[styles.btnLabel, { color: COLORS.white }]}>
                 Add Scan
               </Text>
             </TouchableOpacity>
@@ -139,7 +171,7 @@ const ShipmentScreen = () => {
             <ThemedText
               type="subtitle"
               style={{
-                fontFamily: Fonts.SFPRO_SemiBold,
+                fontFamily: FONTS.SFPRO_SemiBold,
               }}
             >
               Shipments
@@ -149,11 +181,11 @@ const ShipmentScreen = () => {
                 <Checkbox
                   style={styles.checkbox}
                   value={isAllChecked}
-                  color={isAllChecked ? Colors.primary : undefined}
+                  color={isAllChecked ? COLORS.primary : undefined}
                   onValueChange={toggleCheckAll}
                 />
                 <ThemedText
-                  style={{ color: Colors.primary }}
+                  style={{ color: COLORS.primary }}
                   type="defaultRegular"
                 >
                   Mark All
@@ -168,7 +200,7 @@ const ShipmentScreen = () => {
           ) : (
             <FlatList
               scrollEnabled
-              data={shipmentList}
+              data={filteredShipmentList}
               renderItem={renderItem}
               keyExtractor={(item) => item.name}
               contentContainerStyle={styles.flatList}
@@ -180,7 +212,9 @@ const ShipmentScreen = () => {
           )}
         </InnerContainer>
       </ThemedView>
+      {/* </TouchableWithoutFeedback> */}
       <FilterActionSheet
+        filterOptions={FILTER_OPTIONS}
         handleFilterOptions={handleFilterOptions}
         visible={showFilter}
         handleClose={handlFilterClose}
@@ -206,7 +240,7 @@ const styles = StyleSheet.create({
     paddingRight: 18,
     paddingLeft: 14,
     borderRadius: 10,
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -218,7 +252,7 @@ const styles = StyleSheet.create({
   btnLabel: {
     fontSize: 16,
     color: "#58536E",
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
   },
   shipmentsContainer: {
     alignItems: "center",

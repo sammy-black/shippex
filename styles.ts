@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
-import { Colors } from "./constants/Colors";
+import { COLORS } from "./constants";
 
-const { primary } = Colors;
+
+const { primary } = COLORS;
 
 interface SpacerProps {
   size?: string | number;

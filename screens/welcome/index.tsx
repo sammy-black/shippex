@@ -1,14 +1,12 @@
 import { Image, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import { InnerContainer } from "@/styles";
-import { Colors } from "@/constants/Colors";
 import { logoWhite } from "@/assets/images";
 import PrimaryButton from "@/components/PrimaryButton";
-import LoginScreeen from "../login";
 import { useRouter } from "expo-router";
+import { COLORS } from "@/constants";
 
 const WelcomeScreen = () => {
-  const [showModal, setShowModal] = useState(false);
   const router = useRouter()
   return (
     <>
@@ -18,7 +16,7 @@ const WelcomeScreen = () => {
         <Image style={styles.logo} source={logoWhite} />
         <PrimaryButton onPress={() => router.navigate("/login")} title="Login" />
       </InnerContainer>
-      {/* <LoginScreeen visible={showModal} handleClose={() => setShowModal(false)} /> */}
+      
     </>
   );
 };
@@ -27,7 +25,7 @@ export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   InnerContainer: {
-    backgroundColor: Colors.primary,
+    backgroundColor: COLORS.primary,
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: 52,

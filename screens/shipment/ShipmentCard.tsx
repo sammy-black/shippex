@@ -10,11 +10,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Checkbox from "expo-checkbox";
 
 import { Spacer, StackContainer } from "@/styles";
-import { Colors } from "@/constants/Colors";
 import { ArrowInOut, box, colouredArrow, whatsapp } from "@/assets/images";
 import { ThemedText } from "@/components/ThemedText";
-import { Fonts } from "@/constants/Fonts";
-import { ShipmentData } from "@/types/shipmentData";
+import { ShipmentData } from "@/types/ShipmentData";
+import { COLORS, FONTS } from "@/constants";
+import { responsiveFontSize } from "@/utils/getFontValue";
 
 interface ShipmentCardProps {
   checked: boolean;
@@ -22,6 +22,26 @@ interface ShipmentCardProps {
   item?: ShipmentData;
 }
 
+interface StatusBoxProps {
+  status: string;
+}
+
+
+const { STATUS_COLORS } = COLORS;
+
+const StatusBox = ({ status }: StatusBoxProps) => {
+  const currentStatus = status || "received";
+  const { bgColor, textColor } =
+    STATUS_COLORS[currentStatus.toLowerCase()] || STATUS_COLORS["received"];
+
+  return (
+    <View style={[styles.statusContainer, { backgroundColor: bgColor }]}>
+      <Text style={[styles.statusText, { color: textColor }]}>
+        {currentStatus}
+      </Text>
+    </View>
+  );
+};
 const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,7 +76,7 @@ const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
         <Checkbox
           style={styles.checkbox}
           value={checked}
-          color={checked ? Colors.primary : undefined}
+          color={checked ? COLORS.primary : undefined}
           onValueChange={setChecked}
         />
         <Image style={styles.imgCard} source={box} />
@@ -67,17 +87,13 @@ const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
           <ThemedText type="defaultSemiBold">{item?.name}</ThemedText>
           <StackContainer spacing={5} style={{ alignItems: "center" }}>
             <ThemedText style={styles.desc}>{item?.origin_city}</ThemedText>
-            <Feather name="arrow-right" size={8} color={Colors.primary} />
+            <Feather name="arrow-right" size={8} color={COLORS.primary} />
             <ThemedText style={styles.desc}>
-              {item?.destination_state}
+              {item?.destination_city}
             </ThemedText>
           </StackContainer>
         </View>
-        <View>
-          <Text style={[styles.status, { color: Colors.primary }]}>
-            {item?.status}
-          </Text>
-        </View>
+        <StatusBox status={item?.status || ""} />
         <TouchableOpacity onPress={toggleExpand}>
           <Image
             style={styles.arrowImg}
@@ -98,11 +114,11 @@ const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
               </ThemedText>
               <ThemedText style={styles.desc}>Dokki, 22 Nile St.</ThemedText>
             </View>
-            <Feather name="arrow-right" size={16} color={Colors.primary} />
+            <Feather name="arrow-right" size={16} color={COLORS.primary} />
             <View>
               <ThemedText style={styles.location}>Destination</ThemedText>
               <ThemedText style={styles.locationTitle}>
-                {item?.destination_state}
+                {item?.destination_city}
               </ThemedText>
               <ThemedText style={styles.desc}>Smoha, 22 max St.</ThemedText>
             </View>
@@ -135,7 +151,7 @@ export default ShipmentCard;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
     borderRadius: 10,
     paddingTop: 12,
     marginBottom: 8,
@@ -160,20 +176,21 @@ const styles = StyleSheet.create({
   },
 
   desc: {
-    fontFamily: Fonts.Inter_400Regular,
-    fontSize: 13,
+    fontFamily: FONTS.Inter_400Regular,
+    fontSize: responsiveFontSize(13),
     color: "#757281",
   },
-  status: {
-    textTransform: "uppercase",
-    fontFamily: Fonts.Inter_500Medium,
-    borderWidth: 1,
-    borderColor: "#fff",
-    backgroundColor: "#D9E6FD",
+  statusContainer: {
     paddingHorizontal: 6,
     paddingVertical: 4,
     borderRadius: 4,
-    fontSize: 8,
+    borderWidth: 1,
+    borderColor: "#fff",
+  },
+  statusText: {
+    textTransform: "uppercase",
+    fontFamily: FONTS.Inter_500Medium,
+    fontSize: 10,
   },
   arrowImg: {
     height: 24,
@@ -187,7 +204,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     width: "100%",
   },
-  location: { fontSize: 11, color: Colors.primary },
+  location: { fontSize: 11, color: COLORS.primary },
   locationTitle: {
     fontSize: 16,
   },
@@ -202,7 +219,7 @@ const styles = StyleSheet.create({
   },
   actionBtnLabel: {
     fontSize: 16,
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
     color: "white",
   },
   whatsapp: {

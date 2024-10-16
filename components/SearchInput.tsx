@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { searchIcon } from "@/assets/images";
-import { Colors } from "@/constants/Colors";
-import { Fonts } from "@/constants/Fonts";
+import { COLORS, FONTS } from "@/constants";
 
 interface SearchInputProps {
   searchText: string;
@@ -50,12 +49,12 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     gap: 12,
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
   },
   input: {
     flex: 1,
     backgroundColor: "transparent",
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
   },
   icon: {
     width: 24,

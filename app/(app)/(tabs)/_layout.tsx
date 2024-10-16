@@ -1,7 +1,5 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
-import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   ProfileIcon,
@@ -9,8 +7,8 @@ import {
   ShipmentIcon,
   WalletIcon,
 } from "@/components/navigation/homeTabIcons";
-import { Fonts } from "@/constants/Fonts";
 import { StyleSheet, Text } from "react-native";
+import { FONTS } from "@/constants";
 
 interface TabBarLabelProps {
   focused: boolean;
@@ -91,6 +89,6 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 11,
-    fontFamily: Fonts.SFPRO_Regular,
+    fontFamily: FONTS.SFPRO_Regular,
   },
 });

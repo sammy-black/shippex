@@ -1,4 +1,4 @@
-export const Fonts = {
+ const Fonts = {
   SFPRO_Bold: "SFPRO_Bold",
   SFPRO_Medium: "SFPRO_Medium",
   SFPRO_SemiBold: "SFPRO_SemiBold",
@@ -10,3 +10,5 @@ export const Fonts = {
   Inter_400Regular: "Inter_400Regular",
   Inter_600SemiBold: "Inter_600SemiBold",
 };
+
+export default Fonts

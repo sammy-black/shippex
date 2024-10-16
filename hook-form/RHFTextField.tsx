@@ -5,13 +5,13 @@ import {
   TextInputProps,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from "react-native";
 import React, { ReactNode, useState } from "react";
 import { Controller, Control } from "react-hook-form";
-import { Colors } from "@/constants/Colors";
+
 import { responsiveFontSize } from "@/utils/getFontValue";
-import { Fonts } from "@/constants/Fonts";
+import { COLORS, FONTS } from "@/constants";
+
 
 interface RHFTextFieldProps extends TextInputProps {
   name: string;
@@ -36,18 +36,18 @@ const RHFTextField: React.FC<RHFTextFieldProps> = ({
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field: { onChange, value }, fieldState: {isDirty, error } }) => (
         <View style={{ marginBottom: 10 }}>
           <View
             style={[
               styles.inputContainer,
               {
-                borderColor: isFocused ? Colors.primary : Colors.gray,
+                borderColor: isFocused ? COLORS.primary : COLORS.gray,
                 borderWidth: isFocused ? 1 : 0,
               },
             ]}
           >
-            {label && isFocused && <Text style={styles.label}>{label}</Text>}
+            {label && (isFocused || isDirty) && <Text style={styles.label}>{label}</Text>}
             <TextInput
               id={name}
               style={styles.input}
@@ -78,7 +78,7 @@ export default RHFTextField;
 const styles = StyleSheet.create({
   inputContainer: {
     position: "relative",
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
     borderRadius: 10,
     justifyContent: "center",
     paddingHorizontal: 14,
@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
     fontSize: responsiveFontSize(16),
-    color: Colors.primary,
+    color: COLORS.primary,
   },
 
   rightIcon: {
@@ -102,15 +102,15 @@ const styles = StyleSheet.create({
   label: {
     color: "#58536E",
     fontSize: responsiveFontSize(11),
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
     textAlign: "left",
     marginBottom: 5,
   },
 
   errorText: {
-    color: Colors.error,
+    color: COLORS.error,
     fontSize: responsiveFontSize(14),
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
     marginLeft: 10,
     marginTop: 3,
   },

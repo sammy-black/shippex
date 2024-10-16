@@ -12,29 +12,21 @@ import React, { useCallback, useState } from "react";
 import { Spacer, StackContainer } from "@/styles";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { Colors } from "@/constants/Colors";
 import { responsiveFontSize } from "@/utils/getFontValue";
-import { Fonts } from "@/constants/Fonts";
+import { COLORS, FONTS } from "@/constants";
+
 
 interface FilterActionSheetProps {
   visible: boolean;
   handleClose: () => void;
+  filterOptions: string[];
   handleFilterOptions: (options: string[]) => void;
 }
-
-const filterOptions: string[] = [
-  "Received",
-  "Putaway",
-  "Delivered",
-  "Canceled",
-  "Rejected",
-  "Lost",
-  "On Hold",
-];
 
 const FilterActionSheet = ({
   visible,
   handleClose,
+  filterOptions = [],
   handleFilterOptions,
 }: FilterActionSheetProps) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -66,14 +58,14 @@ const FilterActionSheet = ({
             <Spacer size={12} />
             <StackContainer style={{ justifyContent: "space-between" }}>
               <TouchableOpacity onPress={handleClose}>
-                <ThemedText style={{ color: Colors.primary }}>
+                <ThemedText style={{ color: COLORS.primary }}>
                   Cancel
                 </ThemedText>
               </TouchableOpacity>
 
               <ThemedText type="defaultSemiBold">Filter</ThemedText>
               <TouchableOpacity onPress={handleDone}>
-                <ThemedText style={{ color: Colors.primary }}>Done</ThemedText>
+                <ThemedText style={{ color: COLORS.primary }}>Done</ThemedText>
               </TouchableOpacity>
             </StackContainer>
           </View>
@@ -97,7 +89,7 @@ const FilterActionSheet = ({
                     styles.filterBtnLabel,
                     {
                       color: selectedFilters.includes(filter)
-                        ? Colors.primary
+                        ? COLORS.primary
                         : "#58536E",
                     },
                   ]}
@@ -142,7 +134,7 @@ const styles = StyleSheet.create({
   },
   shipmentStatus: {
     fontSize: 13,
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
   },
 
   filterContainer: {
@@ -151,7 +143,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   filterOption: {
-    backgroundColor: Colors.gray,
+    backgroundColor: COLORS.gray,
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 10,
@@ -160,7 +152,7 @@ const styles = StyleSheet.create({
   },
 
   filterBtnLabel: {
-    fontFamily: Fonts.Inter_400Regular,
+    fontFamily: FONTS.Inter_400Regular,
     fontSize: responsiveFontSize(16),
   },
   activeFilter: {

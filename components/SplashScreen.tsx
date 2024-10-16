@@ -1,39 +1,57 @@
 import React, { useEffect } from "react";
-import {  StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  Easing,
   interpolateColor,
 } from "react-native-reanimated";
 import { splashLogo } from "@/assets/images";
-import { Colors } from "@/constants/Colors";
-import { useRouter } from "expo-router";
+import { COLORS } from "@/constants";
 
-const SplashScreen = () => {
-    const router = useRouter()
-  const scale = useSharedValue<number>(1); 
-  const rotation = useSharedValue<number>(0); 
-  const backgroundColor = useSharedValue<number>(0); 
+
+const SplashScreen: React.FC = () => {
+  const scale = useSharedValue<number>(1);
+  const rotationX = useSharedValue<number>(0);
+  const backgroundColor = useSharedValue<number>(0);
 
   useEffect(() => {
-    scale.value = withTiming(0.5, { duration: 700 }, () => {
-      scale.value = withTiming(6, { duration: 700 }, () => {
-        backgroundColor.value = withTiming(1, { duration: 700 });
-        scale.value = withTiming(30, { duration: 700 });
-        rotation.value = withTiming(45, { duration: 700 }, () => {
-        
-        });
-      });
-    });
+    scale.value = withTiming(
+      2,
+      {
+        duration: 800,
+        easing: Easing.linear,
+      },
+      () => {
+        scale.value = withTiming(
+          6,
+          {
+            duration: 800,
+            easing: Easing.bezier(0.84, 0.01, 0.16, 1),
+          },
+          () => {
+            backgroundColor.value = withTiming(1, { duration: 800 });
+            scale.value = withTiming(10, {
+              duration: 800,
+              easing: Easing.bezier(0.74, 0, 0.23, 0.98),
+            });
+            rotationX.value = withTiming(80, {
+              duration: 800,
+              easing: Easing.bezier(0.74, 0, 0.23, 0.98),
+            });
+          }
+        );
+      }
+    );
   }, []);
-
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
         { scale: scale.value },
-        { rotate: `${rotation.value}deg` },
+        { perspective: 1000 },
+        { rotateX: `${rotationX.value}deg` },
       ],
     };
   });
@@ -43,7 +61,7 @@ const SplashScreen = () => {
       backgroundColor: interpolateColor(
         backgroundColor.value,
         [0, 1],
-        ["white", Colors.primary]
+        ["white", COLORS.primary]
       ),
     };
   });

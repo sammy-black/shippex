@@ -7,13 +7,13 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { Colors } from "@/constants/Colors";
-import { Fonts } from "@/constants/Fonts";
 import { responsiveFontSize } from "@/utils/getFontValue";
+import { COLORS, FONTS } from "@/constants";
 
 interface PrimaryButtonProps {
   title: string;
   bgColor?: string;
+  spinnerColor?: string;
   textColor?: string;
   disabled?: boolean;
   loading?: boolean;
@@ -26,23 +26,24 @@ const PrimaryButton = ({
   disabled,
   bgColor,
   loading,
+  spinnerColor
 }: PrimaryButtonProps) => {
   return (
     <TouchableOpacity
-      disabled={disabled}
+      disabled={disabled || loading}
       onPress={onPress}
       style={[
         styles.btn,
-        { backgroundColor: disabled ? Colors.gray : bgColor || "white" },
+        { backgroundColor: disabled ? COLORS.gray : bgColor || "white" },
       ]}
     >
       {loading ? (
-        <ActivityIndicator  size={24} color={Colors.primary} />
+        <ActivityIndicator  size={24} color={spinnerColor || COLORS.primary} />
       ) : (
         <Text
           style={[
             styles.btnLabel,
-            { color: disabled ? "#A7A3B3" : textColor || Colors.primary },
+            { color: disabled ? "#A7A3B3" : textColor || COLORS.primary },
           ]}
         >
           {title}
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 
   btnLabel: {
     textAlign: "center",
-    fontFamily: Fonts.SFPRO_Bold,
+    fontFamily: FONTS.SFPRO_Bold,
     fontSize: responsiveFontSize(17),
   },
 });

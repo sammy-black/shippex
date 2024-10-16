@@ -39,7 +39,7 @@ export default function RootLayout() {
 
   const prepareApp = useCallback(async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2100));
+      await new Promise((resolve) => setTimeout(resolve, 2500));
     } catch (e) {
       console.warn(e);
     } finally {
@@ -47,11 +47,7 @@ export default function RootLayout() {
     }
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await ExpoSplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
+
 
   if (!loaded) {
     return null;

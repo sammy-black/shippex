@@ -2,8 +2,8 @@ import { Text, type TextProps, StyleSheet } from "react-native";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { responsiveFontSize } from "@/utils/getFontValue";
-import { Fonts } from "@/constants/Fonts";
-import { Colors } from "@/constants/Colors";
+import { COLORS, FONTS } from "@/constants";
+
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -46,25 +46,25 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: responsiveFontSize(14),
-    fontFamily: Fonts.Inter_400Regular
+    fontFamily: FONTS.Inter_400Regular
   },
   defaultSemiBold: {
     fontSize: responsiveFontSize(18),
-   fontFamily: Fonts.Inter_600SemiBold
+   fontFamily: FONTS.Inter_600SemiBold
   },
   defaultRegular: {
     fontSize: responsiveFontSize(18),
-    fontFamily: Fonts.SFPRO_Regular,
+    fontFamily: FONTS.SFPRO_Regular,
   },
   title: {
     fontSize: responsiveFontSize(28),
-    fontFamily: Fonts.SFPRO_SemiBold
+    fontFamily: FONTS.SFPRO_SemiBold
   },
   subtitle: {
     fontSize: responsiveFontSize(22),
   },
   link: {
     fontSize: 16,
-    color: Colors.primary,
+    color: COLORS.primary,
   },
 });
