@@ -72,3 +72,9 @@ Styled Components: For styling React components using tagged template literals.
 React Native Reanimated: For handling animations in the app.
 Expo Checkbox: Used for selecting and managing multiple shipments.
 Axios: For making HTTP requests to fetch and manipulate shipment data.
+
+# Environment Variables
+The project uses environment variables to manage sensitive information and configuration.
+
+Location: .env file in the root directory.
+Usage: Access variables using process.env.VARIABLE_NAME.
