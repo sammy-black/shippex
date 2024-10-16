@@ -63,15 +63,15 @@ Feel free to use this account to test the app's functionality.
 
 # Technologies Used
 
-React Native: Framework for building native apps using React.
-Expo: A framework and platform for universal React applications.
-Expo File Router: File-based routing to manage navigation between screens.
-React Hook Form: For managing form state and validation.
-Yup: For schema validation in forms.
-Styled Components: For styling React components using tagged template literals.
-React Native Reanimated: For handling animations in the app.
-Expo Checkbox: Used for selecting and managing multiple shipments.
-Axios: For making HTTP requests to fetch and manipulate shipment data.
+- **React Native:** Framework for building native apps using React.
+- **Expo:** A framework and platform for universal React applications.
+- **Expo File Router:** File-based routing to manage navigation between screens.
+- **React Hook Form:** For managing form state and validation.
+- **Yup:** For schema validation in forms.
+- **Styled Components:** For styling React components using tagged template literals.
+- **React Native Reanimated:** For handling animations in the app.
+- **Expo Checkbox:** Used for selecting and managing multiple shipments.
+- **Axios:** For making HTTP requests to fetch and manipulate shipment data.
 
 # Environment Variables
 The project uses environment variables to manage sensitive information and configuration.
