@@ -176,6 +176,7 @@ const ShipmentScreen = () => {
             <Spinner />
           ) : (
             <FlatList
+            showsVerticalScrollIndicator={false}
               data={filteredShipmentList}
               renderItem={({ item }) => (
                 <ShipmentCard
