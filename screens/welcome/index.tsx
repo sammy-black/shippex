@@ -16,7 +16,7 @@ const WelcomeScreen = () => {
         <View />
 
         <Image style={styles.logo} source={logoWhite} />
-        <PrimaryButton onPress={() => router.navigate("/(auth)/login")} title="Login" />
+        <PrimaryButton onPress={() => router.navigate("/login")} title="Login" />
       </InnerContainer>
       {/* <LoginScreeen visible={showModal} handleClose={() => setShowModal(false)} /> */}
     </>

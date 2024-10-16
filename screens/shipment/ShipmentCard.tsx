@@ -14,13 +14,15 @@ import { Colors } from "@/constants/Colors";
 import { ArrowInOut, box, colouredArrow, whatsapp } from "@/assets/images";
 import { ThemedText } from "@/components/ThemedText";
 import { Fonts } from "@/constants/Fonts";
+import { ShipmentData } from "@/types/shipmentData";
 
 interface ShipmentCardProps {
   checked: boolean;
   setChecked: () => void;
+  item?: ShipmentData;
 }
 
-const ShipmentCard = ({ checked, setChecked }: ShipmentCardProps) => {
+const ShipmentCard = ({ item, checked, setChecked }: ShipmentCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const animatedHeight = useSharedValue(0);
@@ -62,16 +64,18 @@ const ShipmentCard = ({ checked, setChecked }: ShipmentCardProps) => {
           <ThemedText style={[styles.desc, { color: "#3F395C" }]}>
             AMB
           </ThemedText>
-          <ThemedText type="defaultSemiBold">41785691423</ThemedText>
+          <ThemedText type="defaultSemiBold">{item?.name}</ThemedText>
           <StackContainer spacing={5} style={{ alignItems: "center" }}>
-            <ThemedText style={styles.desc}>CAIRO</ThemedText>
+            <ThemedText style={styles.desc}>{item?.origin_city}</ThemedText>
             <Feather name="arrow-right" size={8} color={Colors.primary} />
-            <ThemedText style={styles.desc}>CAIRO</ThemedText>
+            <ThemedText style={styles.desc}>
+              {item?.destination_state}
+            </ThemedText>
           </StackContainer>
         </View>
         <View>
           <Text style={[styles.status, { color: Colors.primary }]}>
-            Received
+            {item?.status}
           </Text>
         </View>
         <TouchableOpacity onPress={toggleExpand}>
@@ -89,13 +93,17 @@ const ShipmentCard = ({ checked, setChecked }: ShipmentCardProps) => {
           >
             <View>
               <ThemedText style={styles.location}>Origin</ThemedText>
-              <ThemedText style={styles.locationTitle}>Cairo</ThemedText>
+              <ThemedText style={styles.locationTitle}>
+                {item?.origin_city}
+              </ThemedText>
               <ThemedText style={styles.desc}>Dokki, 22 Nile St.</ThemedText>
             </View>
             <Feather name="arrow-right" size={16} color={Colors.primary} />
             <View>
               <ThemedText style={styles.location}>Destination</ThemedText>
-              <ThemedText style={styles.locationTitle}>Alexandria</ThemedText>
+              <ThemedText style={styles.locationTitle}>
+                {item?.destination_state}
+              </ThemedText>
               <ThemedText style={styles.desc}>Smoha, 22 max St.</ThemedText>
             </View>
           </StackContainer>
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray,
     borderRadius: 10,
     paddingTop: 12,
-    marginBottom: 8
+    marginBottom: 8,
   },
 
   contentContainer: {
@@ -165,7 +173,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 4,
     borderRadius: 4,
-    fontSize: 11,
+    fontSize: 8,
   },
   arrowImg: {
     height: 24,

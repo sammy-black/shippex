@@ -4,21 +4,23 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Slot, Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { Slot } from "expo-router";
+import * as ExpoSplashScreen from "expo-splash-screen";
+import { useCallback, useEffect, useState } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider } from "@/context/AuthContext";
-
-SplashScreen.preventAutoHideAsync();
+import SplashScreen from "@/components/SplashScreen";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [appIsReady, setAppIsReady] = useState(false);
+
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     SFPRO_Bold: require("../assets/fonts/SFPRODISPLAYBOLD.otf"),
+    SFPRO_SemiBold: require("../assets/fonts/SFProDisplay-Semibold.ttf"),
     SFPRO_Medium: require("../assets/fonts/SFPRODISPLAYMEDIUM.otf"),
     SFPRO_Regular: require("../assets/fonts/SFPRODISPLAYREGULAR.otf"),
     Inter_700Bold: require("../assets/fonts/Inter/Inter-Bold.ttf"),
@@ -30,16 +32,37 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      ExpoSplashScreen.hideAsync();
+      prepareApp()
     }
   }, [loaded]);
+
+  const prepareApp = useCallback(async () => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2100));
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      setAppIsReady(true);
+    }
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await ExpoSplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
 
   if (!loaded) {
     return null;
   }
+  if (!appIsReady) {
+    return <SplashScreen />;
+  }
+
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider  value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <Slot />
       </AuthProvider>

@@ -58,10 +58,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: responsiveFontSize(28),
+    fontFamily: Fonts.SFPRO_SemiBold
   },
   subtitle: {
     fontSize: responsiveFontSize(22),
-    fontWeight: "bold",
   },
   link: {
     fontSize: 16,

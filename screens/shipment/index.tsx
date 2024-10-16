@@ -1,5 +1,6 @@
 import {
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -20,20 +21,9 @@ import { ThemedView } from "@/components/ThemedView";
 import FilterActionSheet from "./FilterActionSheet";
 import { Fonts } from "@/constants/Fonts";
 import axios from "@/utils/axios";
+import { ShipmentData } from "@/types/shipmentData";
+import Spinner from "@/components/Spinner";
 
-interface Shipment {
-  id: string;
-  description: string;
-}
-
-const shipmentData: Shipment[] = [
-  { id: "1", description: "Shipment 1" },
-  { id: "2", description: "Shipment 2" },
-  { id: "3", description: "Shipment 3" },
-  { id: "4", description: "Shipment 1" },
-  { id: "5", description: "Shipment 2" },
-  { id: "6", description: "Shipment 3" },
-];
 const ShipmentScreen = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -42,7 +32,7 @@ const ShipmentScreen = () => {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [shipmentList, setShipmentList] = useState<[]>([]);
+  const [shipmentList, setShipmentList] = useState<ShipmentData[]>([]);
 
   useEffect(() => {
     fetchShipments();
@@ -53,11 +43,12 @@ const ShipmentScreen = () => {
     try {
       const { data } = await axios.get("/frappe.client.get_list", {
         params: {
-          doctype: "AWB Status",
+          doctype: "AWB",
           fields: JSON.stringify(["*"]),
         },
       });
-      console.log(data);
+
+      setShipmentList(data.message);
       setIsFetching(false);
     } catch (error) {
       console.log(error);
@@ -79,8 +70,8 @@ const ShipmentScreen = () => {
   };
 
   const toggleAllItems = (check: boolean) => {
-    const updatedCheckedItems = shipmentData.reduce((acc, item) => {
-      acc[item.id] = check;
+    const updatedCheckedItems = shipmentList.reduce((acc, item) => {
+      acc[item.name] = check;
       return acc;
     }, {} as { [key: string]: boolean });
 
@@ -88,16 +79,22 @@ const ShipmentScreen = () => {
     setIsAllChecked(check);
   };
 
-  const renderItem = ({ item }: { item: Shipment }) => (
+  const renderItem = ({ item }: { item: ShipmentData }) => (
     <ShipmentCard
-      checked={!!checkedItems[item.id]}
-      setChecked={() => toggleCheckBox(item.id)}
+      item={item}
+      checked={!!checkedItems[item.name]}
+      setChecked={() => toggleCheckBox(item.name)}
     />
   );
 
   const handleFilterOptions = (options: string[]) => {
     console.log(options);
   };
+
+  const onRefresh = useCallback(() => {
+    fetchShipments();
+  }, []);
+
   return (
     <>
       <ThemedView style={{ flex: 1 }}>
@@ -139,7 +136,14 @@ const ShipmentScreen = () => {
           </View>
           <Spacer size={12} />
           <StackContainer style={styles.shipmentsContainer}>
-            <ThemedText type="subtitle">Shipments</ThemedText>
+            <ThemedText
+              type="subtitle"
+              style={{
+                fontFamily: Fonts.SFPRO_SemiBold,
+              }}
+            >
+              Shipments
+            </ThemedText>
             <TouchableOpacity onPress={toggleCheckAll}>
               <StackContainer style={{ alignItems: "center" }} spacing={8}>
                 <Checkbox
@@ -157,14 +161,23 @@ const ShipmentScreen = () => {
               </StackContainer>
             </TouchableOpacity>
           </StackContainer>
-          <FlatList
-            scrollEnabled
-            data={shipmentData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.flatList}
-            showsVerticalScrollIndicator={false}
-          />
+
+          {/* shipment status list */}
+          {isFetching ? (
+            <Spinner />
+          ) : (
+            <FlatList
+              scrollEnabled
+              data={shipmentList}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.name}
+              contentContainerStyle={styles.flatList}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={isFetching} onRefresh={onRefresh} />
+              }
+            />
+          )}
         </InnerContainer>
       </ThemedView>
       <FilterActionSheet
@@ -181,7 +194,6 @@ export default ShipmentScreen;
 const styles = StyleSheet.create({
   introContainer: {
     paddingVertical: 12,
-    gap: 10,
   },
 
   filterBtnContainer: {

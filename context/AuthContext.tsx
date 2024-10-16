@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface IAuthState {
@@ -6,6 +7,7 @@ interface IAuthState {
 }
 
 interface AuthContextType {
+  logOut: () => void;
   authState: IAuthState;
   setAuthState: React.Dispatch<React.SetStateAction<IAuthState>>;
 }
@@ -21,12 +23,23 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const [authState, setAuthState] = useState<IAuthState>({
     authenticated: false,
     username: "",
   });
 
+  const logOut = async () => {
+    setAuthState({
+      username: "",
+      authenticated: false,
+    });
+
+    router.replace("/(auth)/welcome");
+  };
+
   const value = {
+    logOut,
     authState,
     setAuthState,
   };

@@ -1,6 +1,7 @@
 export const Fonts = {
   SFPRO_Bold: "SFPRO_Bold",
   SFPRO_Medium: "SFPRO_Medium",
+  SFPRO_SemiBold: "SFPRO_SemiBold",
   SFPRO_Regular: "SFPRO_Regular",
   Inter_900Black: "Inter_900Black",
   Inter_700Bold: "Inter_700Bold",

@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import ComingSoon from "@/components/ComingSoon";
 
 const Wallet = () => {
   return (
-    <View>
-      <Text>Wallet</Text>
-    </View>
-  )
-}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ComingSoon />
+    </SafeAreaView>
+  );
+};
 
-export default Wallet
+export default Wallet;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

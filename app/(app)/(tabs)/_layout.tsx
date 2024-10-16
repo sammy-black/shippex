@@ -10,7 +10,6 @@ import {
   WalletIcon,
 } from "@/components/navigation/homeTabIcons";
 import { Fonts } from "@/constants/Fonts";
-import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, Text } from "react-native";
 
 interface TabBarLabelProps {

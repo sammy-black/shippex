@@ -1,1 +1,0 @@
-export { default as Shipment} from "./boxes-icon.svg"

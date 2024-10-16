@@ -68,7 +68,6 @@ const LoginScreeen = () => {
       setIsLoading(false);
       router.replace("/(app)/(tabs)")
     } catch (error: any) {
-      console.log("error", error.message);
       setIsLoading(false);
     }
   };
@@ -166,5 +165,6 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 34,
+    fontFamily: Fonts.SFPRO_SemiBold
   },
 });
