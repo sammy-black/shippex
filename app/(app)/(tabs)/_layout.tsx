@@ -69,7 +69,7 @@ export default function TabLayout() {
         name="wallet"
         options={{
           title: "Wallet",
-          tabBarIcon: ({ color, focused }) => <WalletIcon focused={focused} color={color} />,
+          tabBarIcon: ({ color, focused }) => <WalletIcon focused={focused} />,
           tabBarLabel: ({ focused }) => (
             <TabBarLabel focused={focused} title="Wallet" />
           ),

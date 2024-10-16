@@ -4,12 +4,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { AuthProvider } from "@/context/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +21,11 @@ export default function RootLayout() {
     SFPRO_Bold: require("../assets/fonts/SFPRODISPLAYBOLD.otf"),
     SFPRO_Medium: require("../assets/fonts/SFPRODISPLAYMEDIUM.otf"),
     SFPRO_Regular: require("../assets/fonts/SFPRODISPLAYREGULAR.otf"),
+    Inter_700Bold: require("../assets/fonts/Inter/Inter-Bold.ttf"),
+    Inter_300Light: require("../assets/fonts/Inter/Inter-Light.ttf"),
+    Inter_500Medium: require("../assets/fonts/Inter/Inter-Medium.ttf"),
+    Inter_400Regular: require("../assets/fonts/Inter/Inter-Regular.ttf"),
+    Inter_600SemiBold: require("../assets/fonts/Inter/Inter-Bold.ttf"),
   });
 
   useEffect(() => {
@@ -34,10 +40,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <AuthProvider>
+        <Slot />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

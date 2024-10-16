@@ -1,16 +1,57 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { InnerContainer } from "@/styles";
+import {
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useCallback, useState } from "react";
+
+import { Spacer, StackContainer } from "@/styles";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { Colors } from "@/constants/Colors";
+import { responsiveFontSize } from "@/utils/getFontValue";
+import { Fonts } from "@/constants/Fonts";
 
 interface FilterActionSheetProps {
   visible: boolean;
   handleClose: () => void;
+  handleFilterOptions: (options: string[]) => void;
 }
+
+const filterOptions: string[] = [
+  "Received",
+  "Putaway",
+  "Delivered",
+  "Canceled",
+  "Rejected",
+  "Lost",
+  "On Hold",
+];
 
 const FilterActionSheet = ({
   visible,
   handleClose,
+  handleFilterOptions,
 }: FilterActionSheetProps) => {
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  const toggleFilter = (filter: string) => {
+    if (selectedFilters.includes(filter)) {
+      setSelectedFilters(selectedFilters.filter((item) => item !== filter));
+    } else {
+      setSelectedFilters([...selectedFilters, filter]);
+    }
+  };
+
+  const handleDone = useCallback(() => {
+    handleFilterOptions(selectedFilters);
+    handleClose();
+  }, [selectedFilters]);
+
   return (
     <Modal
       onRequestClose={handleClose}
@@ -18,11 +59,56 @@ const FilterActionSheet = ({
       transparent={true}
       visible={visible}
     >
-      <Pressable onPress={handleClose} style={{flex: 1}}>
-        <InnerContainer style={styles.contentContainer}>
-          <Text>FilterActionSheet</Text>
-        </InnerContainer>
-      </Pressable>
+      <View style={styles.contentContainer}>
+        <ThemedView style={styles.bottomContainer}>
+          <View style={{ width: "100%", paddingHorizontal: 24 }}>
+            <View style={styles.grabber} />
+            <Spacer size={12} />
+            <StackContainer style={{ justifyContent: "space-between" }}>
+              <TouchableOpacity onPress={handleClose}>
+                <ThemedText style={{ color: Colors.primary }}>
+                  Cancel
+                </ThemedText>
+              </TouchableOpacity>
+
+              <ThemedText type="defaultSemiBold">Filter</ThemedText>
+              <TouchableOpacity onPress={handleDone}>
+                <ThemedText style={{ color: Colors.primary }}>Done</ThemedText>
+              </TouchableOpacity>
+            </StackContainer>
+          </View>
+
+          <View style={styles.divider} />
+          <View style={{ paddingHorizontal: 24 }}>
+            <Text style={styles.shipmentStatus}>SHIPMENT STATUS</Text>
+          </View>
+          <StackContainer style={styles.filterContainer}>
+            {filterOptions.map((filter, index) => (
+              <TouchableOpacity
+                key={filter}
+                onPress={() => toggleFilter(filter)}
+                style={[
+                  styles.filterOption,
+                  selectedFilters.includes(filter) && styles.activeFilter,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.filterBtnLabel,
+                    {
+                      color: selectedFilters.includes(filter)
+                        ? Colors.primary
+                        : "#58536E",
+                    },
+                  ]}
+                >
+                  {filter}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </StackContainer>
+        </ThemedView>
+      </View>
     </Modal>
   );
 };
@@ -31,6 +117,53 @@ export default FilterActionSheet;
 
 const styles = StyleSheet.create({
   contentContainer: {
+    flex: 1,
     backgroundColor: "#0000004D",
+    justifyContent: "flex-end",
+  },
+  bottomContainer: {
+    paddingTop: 5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 24,
+    gap: 12,
+  },
+  grabber: {
+    width: 36,
+    height: 5,
+    borderRadius: 10,
+    backgroundColor: "#A7A3B3",
+    alignSelf: "center",
+  },
+
+  divider: {
+    height: 1,
+    backgroundColor: "#EAE7F2",
+  },
+  shipmentStatus: {
+    fontSize: 13,
+    fontFamily: Fonts.Inter_400Regular,
+  },
+
+  filterContainer: {
+    paddingHorizontal: 24,
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  filterOption: {
+    backgroundColor: Colors.gray,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "transparent",
+  },
+
+  filterBtnLabel: {
+    fontFamily: Fonts.Inter_400Regular,
+    fontSize: responsiveFontSize(16),
+  },
+  activeFilter: {
+    borderColor: "#6E91EC",
   },
 });

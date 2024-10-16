@@ -6,3 +6,5 @@ export { default as box } from "./box.png";
 export { default as ArrowInOut } from "./arrow-in-out.png";
 export { default as colouredArrow } from "./coloured-arrow.png";
 export { default as whatsapp } from "./whatsapp.png";
+export { default as grabber } from "./Grabber.png";
+export { default as logoWhite } from "./shippex-white-logo.png";

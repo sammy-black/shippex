@@ -1,12 +1,11 @@
 import {
-  ActionSheetIOS,
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Checkbox from "expo-checkbox";
 
 import ShipmentCard from "./ShipmentCard";
@@ -19,6 +18,8 @@ import { Colors } from "@/constants/Colors";
 import { InnerContainer, Spacer, StackContainer } from "@/styles";
 import { ThemedView } from "@/components/ThemedView";
 import FilterActionSheet from "./FilterActionSheet";
+import { Fonts } from "@/constants/Fonts";
+import axios from "@/utils/axios";
 
 interface Shipment {
   id: string;
@@ -35,12 +36,34 @@ const shipmentData: Shipment[] = [
 ];
 const ShipmentScreen = () => {
   const [showFilter, setShowFilter] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
-
   const [searchText, setSearchText] = useState<string>("");
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [shipmentList, setShipmentList] = useState<[]>([]);
+
+  useEffect(() => {
+    fetchShipments();
+  }, []);
+
+  const fetchShipments = useCallback(async () => {
+    setIsFetching(true);
+    try {
+      const { data } = await axios.get("/frappe.client.get_list", {
+        params: {
+          doctype: "AWB Status",
+          fields: JSON.stringify(["*"]),
+        },
+      });
+      console.log(data);
+      setIsFetching(false);
+    } catch (error) {
+      console.log(error);
+      setIsFetching(false);
+    }
+  }, []);
 
   const toggleCheckAll = () => {
     toggleAllItems(!isAllChecked);
@@ -72,6 +95,9 @@ const ShipmentScreen = () => {
     />
   );
 
+  const handleFilterOptions = (options: string[]) => {
+    console.log(options);
+  };
   return (
     <>
       <ThemedView style={{ flex: 1 }}>
@@ -141,7 +167,11 @@ const ShipmentScreen = () => {
           />
         </InnerContainer>
       </ThemedView>
-      <FilterActionSheet visible={showFilter} handleClose={handlFilterClose} />
+      <FilterActionSheet
+        handleFilterOptions={handleFilterOptions}
+        visible={showFilter}
+        handleClose={handlFilterClose}
+      />
     </>
   );
 };
@@ -176,6 +206,7 @@ const styles = StyleSheet.create({
   btnLabel: {
     fontSize: 16,
     color: "#58536E",
+    fontFamily: Fonts.Inter_400Regular,
   },
   shipmentsContainer: {
     alignItems: "center",

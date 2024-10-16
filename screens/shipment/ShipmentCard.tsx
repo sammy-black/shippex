@@ -13,6 +13,7 @@ import { Spacer, StackContainer } from "@/styles";
 import { Colors } from "@/constants/Colors";
 import { ArrowInOut, box, colouredArrow, whatsapp } from "@/assets/images";
 import { ThemedText } from "@/components/ThemedText";
+import { Fonts } from "@/constants/Fonts";
 
 interface ShipmentCardProps {
   checked: boolean;
@@ -151,11 +152,13 @@ const styles = StyleSheet.create({
   },
 
   desc: {
+    fontFamily: Fonts.Inter_400Regular,
     fontSize: 13,
     color: "#757281",
   },
   status: {
     textTransform: "uppercase",
+    fontFamily: Fonts.Inter_500Medium,
     borderWidth: 1,
     borderColor: "#fff",
     backgroundColor: "#D9E6FD",
@@ -191,7 +194,7 @@ const styles = StyleSheet.create({
   },
   actionBtnLabel: {
     fontSize: 16,
-    fontWeight: "400",
+    fontFamily: Fonts.Inter_400Regular,
     color: "white",
   },
   whatsapp: {

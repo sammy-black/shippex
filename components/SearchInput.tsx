@@ -1,15 +1,16 @@
 import { searchIcon } from "@/assets/images";
 import { Colors } from "@/constants/Colors";
+import { Fonts } from "@/constants/Fonts";
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Image } from "react-native";
 
 interface SearchInputProps {
   searchText: string;
-  setSearchText: (text: string | number) => void;
+  setSearchText: (text: string) => void;
 }
 const SearchInput = ({ searchText, setSearchText }: SearchInputProps) => {
   const handleSearch = (text: string) => {
-    setSearchText(text);
+    setSearchText(text); 
   };
 
   return (
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
       input: {
         flex: 1,
         backgroundColor: 'transparent',
+        fontFamily: Fonts.Inter_400Regular
       },
       icon: {
         width: 24, 

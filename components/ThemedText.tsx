@@ -46,10 +46,11 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: responsiveFontSize(14),
+    fontFamily: Fonts.Inter_400Regular
   },
   defaultSemiBold: {
     fontSize: responsiveFontSize(18),
-    fontWeight: "600",
+   fontFamily: Fonts.Inter_600SemiBold
   },
   defaultRegular: {
     fontSize: responsiveFontSize(18),
@@ -57,7 +58,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: responsiveFontSize(28),
-    fontWeight: "bold",
   },
   subtitle: {
     fontSize: responsiveFontSize(22),
