@@ -124,7 +124,7 @@ const ShipmentScreen = () => {
   return (
     <>
       <ThemedView style={{ flex: 1 }}>
-        <InnerContainer style={{ gap: 12 }}>
+        <InnerContainer style={{flex: 1, gap: 12 }}>
           <Header />
           <View style={styles.introContainer}>
             <ThemedText style={{ color: "#00000099" }}>Hello,</ThemedText>
@@ -220,7 +220,7 @@ const ShipmentScreen = () => {
 export default ShipmentScreen;
 
 const styles = StyleSheet.create({
-  introContainer: { paddingVertical: 12, flex: 1 },
+  introContainer: { paddingVertical: 12, },
   filterBtnContainer: { flexDirection: "row", gap: 14 },
   filterBtn: {
     paddingVertical: 6,
