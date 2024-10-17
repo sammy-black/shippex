@@ -9,6 +9,7 @@ This is a simple shipment tracking app built using [React Native](https://reactn
 - [Running the App](#running-the-app)
 - [Test Credentials](#test-credentials)
 - [Technologies Used](#technologies-used)
+- [APK Download](#apk-download)
 
 ## Prerequisites
 
@@ -73,8 +74,16 @@ Feel free to use this account to test the app's functionality.
 - **Expo Checkbox:** Used for selecting and managing multiple shipments.
 - **Axios:** For making HTTP requests to fetch and manipulate shipment data.
 
+
+# APK Download
+You can download the APK file and install the app on your Android device:
+
+[Download APK](https://drive.google.com/drive/folders/1IG9qCCZNY8EUbXN627pFO9FfoAfFj_Qj?q=sharedwith:public%20parent:1IG9qCCZNY8EUbXN627pFO9FfoAfFj_Qj)
+
 # Environment Variables
 The project uses environment variables to manage sensitive information and configuration.
 
 Location: .env file in the root directory.
 Usage: Access variables using process.env.VARIABLE_NAME.
+
+
